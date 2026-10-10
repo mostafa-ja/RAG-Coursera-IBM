@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 · Foundations of Generative AI & Prompt Engineering — Study Guide</title>
+<style>
+:root{--text:#2C2C2B;--muted:#7D7A75;--bg:#FFFFFF;--soft:#F9F8F7;--soft2:#F0EFED;--border:#E6E5E3;
+--blue:#2783DE;--blueS:#E5F2FC;--green:#46A171;--greenS:#E8F1EC;--orange:#D5803B;--orangeS:#FBEBDE;--red:#E56458;--redS:#FCE9E7;--purple:#9065B0;--purpleS:#F3EBF8;
+--code:#1F2328;--codeBg:#F6F5F3;--r:14px}
+@media (prefers-color-scheme:dark){:root{--text:#FFFFFF;--muted:rgba(255,255,255,.65);--bg:#191919;--soft:#202020;--soft2:#2A2A29;--border:rgba(255,255,255,.18);
+--blue:#5E9FE8;--blueS:rgba(94,159,232,.12);--green:#72BC8F;--greenS:rgba(114,188,143,.12);--orange:#DE9255;--orangeS:rgba(222,146,85,.12);--red:#E97366;--redS:rgba(233,115,102,.12);--purple:#BF8EDA;--purpleS:rgba(191,142,218,.12);--code:#EDEDED;--codeBg:#232322}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.65;font-size:16.5px}
+a{color:var(--blue)}
+.layout{display:grid;grid-template-columns:250px 1fr;max-width:1250px;margin:0 auto}
+nav.toc{position:sticky;top:0;height:100vh;overflow:auto;padding:28px 18px;border-right:1px solid var(--border)}
+nav.toc .brand{font-weight:700;font-size:14px;margin-bottom:4px}
+nav.toc .sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+nav.toc a{display:block;text-decoration:none;color:var(--muted);font-size:13.5px;padding:6px 10px;border-radius:8px;margin:1px 0}
+nav.toc a:hover,nav.toc a.active{background:var(--soft2);color:var(--text)}
+.progress{height:4px;background:var(--soft2);border-radius:4px;margin:6px 0 18px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .2s}
+main{padding:0 48px 80px;min-width:0}
+header.hero{padding:64px 0 40px;border-bottom:1px solid var(--border)}
+.eyebrow{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:700}
+h1{font-size:44px;line-height:1.12;margin:12px 0 14px;letter-spacing:-.02em}
+h2{font-size:28px;margin:0 0 8px;letter-spacing:-.01em}
+h3{font-size:19px;margin:28px 0 8px}
+.lead{font-size:19px;color:var(--muted);max-width:760px}
+section{padding:56px 0;border-bottom:1px solid var(--border)}
+.secnum{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.max{max-width:780px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:var(--soft);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card h4{margin:0 0 6px;font-size:16px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;margin-bottom:10px}
+.t-blue{background:var(--blueS);color:var(--blue)}.t-green{background:var(--greenS);color:var(--green)}.t-orange{background:var(--orangeS);color:var(--orange)}.t-red{background:var(--redS);color:var(--red)}.t-purple{background:var(--purpleS);color:var(--purple)}
+.remember{border-left:4px solid var(--blue);background:var(--blueS);padding:14px 18px;border-radius:0 10px 10px 0;margin:22px 0;font-size:15.5px}
+.remember b{color:var(--blue)}
+.warn{border-left:4px solid var(--orange);background:var(--orangeS);padding:14px 18px;border-radius:0 10px 10px 0;margin:22px 0;font-size:15.5px}
+.pro{border-left:4px solid var(--green);background:var(--greenS);padding:14px 18px;border-radius:0 10px 10px 0;margin:22px 0;font-size:15.5px}
+pre{background:var(--codeBg);color:var(--code);border:1px solid var(--border);border-radius:12px;padding:16px 18px;overflow:auto;font:13.5px/1.6 Menlo,Consolas,monospace;margin:14px 0}
+code{font-family:Menlo,Consolas,monospace;font-size:.9em;background:var(--soft2);padding:1px 6px;border-radius:5px}
+pre code{background:none;padding:0}
+.c-k{color:#C2410C}.c-s{color:#16803C}.c-c{color:var(--muted);font-style:italic}.c-f{color:#2563EB}
+@media (prefers-color-scheme:dark){.c-k{color:#FB923C}.c-s{color:#86EFAC}.c-f{color:#93C5FD}}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:14px 0}
+th,td{border-bottom:1px solid var(--border);padding:10px 12px;text-align:left;vertical-align:top}
+th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+svg{max-width:100%;height:auto;display:block}
+.svg-wrap{background:var(--soft);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin:18px 0}
+.svg-wrap .cap{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+svg text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;fill:var(--text)}
+svg .muted{fill:var(--muted)}
+.box{fill:var(--bg);stroke:var(--border);stroke-width:1.5}
+.arrow{stroke:var(--muted);stroke-width:2;fill:none;marker-end:url(#ah)}
+/* prompt anatomy */
+.prompt{font:15px/1.9 Menlo,Consolas,monospace;background:var(--codeBg);border:1px solid var(--border);border-radius:12px;padding:18px}
+.hl{padding:2px 4px;border-radius:5px;cursor:pointer;transition:outline .15s}
+.hl-i{background:var(--blueS)}.hl-c{background:var(--purpleS)}.hl-d{background:var(--greenS)}.hl-o{background:var(--orangeS)}
+.legend span{display:inline-flex;align-items:center;gap:6px;margin:8px 14px 0 0;font-size:14px;cursor:pointer}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.dim .hl{opacity:.25}.dim .hl.on{opacity:1;outline:2px solid var(--text)}
+/* tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 0}
+.tabs button{border:1px solid var(--border);background:var(--soft);color:var(--text);padding:8px 14px;border-radius:999px;font-size:14px;cursor:pointer}
+.tabs button.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.tabpanel{display:none}.tabpanel.on{display:block}
+/* template playground */
+.play{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.play label{font-size:13px;color:var(--muted);display:block;margin:8px 0 4px}
+.play input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:15px}
+.outbox{background:var(--blueS);border-radius:12px;padding:16px;font:15px/1.6 Menlo,Consolas,monospace;min-height:90px}
+/* flashcards */
+.flash{perspective:1000px;height:170px;cursor:pointer}
+.flash .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flash.flip .in{transform:rotateY(180deg)}
+.flash .f,.flash .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);padding:18px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--border)}
+.flash .f{background:var(--soft);font-weight:700;font-size:17px}
+.flash .b{background:var(--blueS);transform:rotateY(180deg);font-size:14.5px}
+/* quiz */
+.q{background:var(--soft);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin:14px 0}
+.q p{margin:0 0 10px;font-weight:600}
+.q button{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:15px;cursor:pointer}
+.q button.right{background:var(--greenS);border-color:var(--green)}
+.q button.wrong{background:var(--redS);border-color:var(--red)}
+.q .exp{display:none;font-size:14.5px;color:var(--muted);margin-top:8px}
+.q.done .exp{display:block}
+.score{font-weight:700;font-size:18px}
+details{background:var(--soft);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:10px 0}
+details summary{cursor:pointer;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.check li{list-style:none;margin:6px 0}
+.check{padding-left:0}
+.check input{margin-right:8px;transform:scale(1.15)}
+footer{padding:40px 0;color:var(--muted);font-size:14px}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav.toc{display:none}main{padding:0 20px 60px}.grid2,.grid3,.grid4,.play{grid-template-columns:1fr}h1{font-size:34px}}
+@media print{nav.toc{display:none}.layout{grid-template-columns:1fr}section{break-inside:avoid-page}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7D7A75"/></marker>
+</defs></svg>
+<div class="layout">
+<nav class="toc" id="toc">
+  <div class="brand">IBM RAG & Agentic AI</div>
+  <div class="sub">Unit 01 · Foundations of GenAI & Prompt Engineering</div>
+  <div class="progress"><span id="bar"></span></div>
+  <a href="#map">0 · The big picture</a>
+  <a href="#disc-gen">1 · Discriminative vs Generative</a>
+  <a href="#prompt">2 · Prompts & prompt engineering</a>
+  <a href="#icl">3 · In-context learning & shots</a>
+  <a href="#reasoning">4 · CoT & self-consistency</a>
+  <a href="#langchain">5 · LangChain & templates</a>
+  <a href="#lcel">6 · LCEL & Runnables</a>
+  <a href="#agents">7 · Agents</a>
+  <a href="#cheat">8 · Cheat sheet</a>
+  <a href="#flash">9 · Flashcards</a>
+  <a href="#quiz">10 · Self-check quiz</a>
+  <a href="#interview">11 · Interview questions</a>
+  <a href="#practice">12 · Hands-on & résumé</a>
+</nav>
+<main>
+
+<header class="hero">
+  <div class="eyebrow">Revision guide · Unit 01</div>
+  <h1>Foundations of Generative AI<br>& Prompt Engineering</h1>
+  <p class="lead">From “what is generative AI?” to building your first LangChain pipeline. Each section covers one idea, with a diagram, a worked example, and a takeaway to remember.</p>
+  <div class="grid4" style="margin-top:28px">
+    <div class="card"><span class="tag t-blue">Concepts</span><p>GenAI, prompts, ICL, shots, CoT, self-consistency</p></div>
+    <div class="card"><span class="tag t-green">Framework</span><p>LangChain, prompt templates, LCEL, Runnables</p></div>
+    <div class="card"><span class="tag t-orange">Systems</span><p>Agents: LLM + tools + prompts</p></div>
+    <div class="card"><span class="tag t-purple">Career</span><p>Interview Q&A, mini-projects, résumé bullets</p></div>
+  </div>
+</header>
+
+<!-- 0 MAP -->
+<section id="map">
+  <div class="secnum">SECTION 0</div>
+  <h2>The big picture</h2>
+  <p class="max">All the ideas in this unit build on each other. Prompt techniques decide <i>what you say</i> to the model. LangChain and LCEL decide <i>how you wire it</i> into an application. Agents decide <i>what the model can do</i>.</p>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 330">
+    <rect x="20" y="20" width="280" height="290" rx="16" fill="var(--blueS)"/>
+    <text x="40" y="52" font-weight="700" font-size="15" style="fill:var(--blue)">① WHAT YOU SAY</text>
+    <text x="40" y="72" font-size="12" class="muted">Prompt engineering</text>
+    <rect class="box" x="40" y="88" width="240" height="40" rx="10"/><text x="160" y="113" text-anchor="middle" font-size="14">Instruction · Context · Input · Output</text>
+    <rect class="box" x="40" y="138" width="240" height="40" rx="10"/><text x="160" y="163" text-anchor="middle" font-size="14">In-context learning (examples)</text>
+    <rect class="box" x="40" y="188" width="240" height="40" rx="10"/><text x="160" y="213" text-anchor="middle" font-size="14">Zero / One / Few-shot</text>
+    <rect class="box" x="40" y="238" width="240" height="40" rx="10"/><text x="160" y="263" text-anchor="middle" font-size="14">Chain-of-Thought · Self-consistency</text>
+
+    <rect x="340" y="20" width="280" height="290" rx="16" fill="var(--greenS)"/>
+    <text x="360" y="52" font-weight="700" font-size="15" style="fill:var(--green)">② HOW YOU WIRE IT</text>
+    <text x="360" y="72" font-size="12" class="muted">LangChain framework</text>
+    <rect class="box" x="360" y="88" width="240" height="40" rx="10"/><text x="480" y="113" text-anchor="middle" font-size="14">Prompt templates {placeholders}</text>
+    <rect class="box" x="360" y="138" width="240" height="40" rx="10"/><text x="480" y="163" text-anchor="middle" font-size="14">LCEL: prompt | llm | parser</text>
+    <rect class="box" x="360" y="188" width="240" height="40" rx="10"/><text x="480" y="213" text-anchor="middle" font-size="14">RunnableSequence / Parallel</text>
+    <rect class="box" x="360" y="238" width="240" height="40" rx="10"/><text x="480" y="263" text-anchor="middle" font-size="14">RunnableLambda · type coercion</text>
+
+    <rect x="660" y="20" width="280" height="290" rx="16" fill="var(--orangeS)"/>
+    <text x="680" y="52" font-weight="700" font-size="15" style="fill:var(--orange)">③ WHAT IT CAN DO</text>
+    <text x="680" y="72" font-size="12" class="muted">Agents & apps</text>
+    <rect class="box" x="680" y="88" width="240" height="40" rx="10"/><text x="800" y="113" text-anchor="middle" font-size="14">LLM + Tools + Prompts</text>
+    <rect class="box" x="680" y="138" width="240" height="40" rx="10"/><text x="800" y="163" text-anchor="middle" font-size="14">Q&A · Content · Analytics</text>
+    <rect class="box" x="680" y="188" width="240" height="40" rx="10"/><text x="800" y="213" text-anchor="middle" font-size="14">Multilingual agents</text>
+    <rect class="box" x="680" y="238" width="240" height="40" rx="10" stroke-dasharray="5 4"/><text x="800" y="263" text-anchor="middle" font-size="14">→ next: RAG & LangGraph</text>
+    <path class="arrow" d="M302 165 L336 165"/><path class="arrow" d="M622 165 L656 165"/>
+  </svg>
+  <div class="cap">Unit 01 in one picture: language → plumbing → capability.</div>
+  </div>
+</section>
+
+<!-- 1 -->
+<section id="disc-gen">
+  <div class="secnum">SECTION 1</div>
+  <h2>Discriminative AI vs Generative AI</h2>
+  <p class="max">Both types learn from data, but they answer different questions. A discriminative model draws a <b>boundary</b> between categories. A generative model learns the <b>pattern of the data itself</b>, so it can produce new samples that follow that pattern.</p>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 300">
+    <text x="230" y="30" text-anchor="middle" font-weight="700" font-size="16">Discriminative: “Which category?”</text>
+    <rect x="30" y="45" width="400" height="200" rx="14" class="box"/>
+    <g style="fill:var(--blue)"><circle cx="90" cy="100" r="8"/><circle cx="130" cy="140" r="8"/><circle cx="80" cy="180" r="8"/><circle cx="160" cy="90" r="8"/><circle cx="150" cy="200" r="8"/><circle cx="200" cy="130" r="8"/></g>
+    <g style="fill:var(--orange)"><rect x="290" y="90" width="15" height="15"/><rect x="340" y="130" width="15" height="15"/><rect x="300" y="190" width="15" height="15"/><rect x="370" y="80" width="15" height="15"/><rect x="380" y="200" width="15" height="15"/><rect x="260" y="150" width="15" height="15"/></g>
+    <path d="M250 55 C 220 120, 260 170, 230 238" stroke="var(--red)" stroke-width="3" fill="none" stroke-dasharray="7 5"/>
+    <text x="120" y="232" font-size="13" style="fill:var(--blue)">● Not spam</text>
+    <text x="320" y="232" font-size="13" style="fill:var(--orange)">■ Spam</text>
+    <text x="230" y="275" text-anchor="middle" font-size="13" class="muted">Learns the decision boundary · P(label | input)</text>
+
+    <text x="730" y="30" text-anchor="middle" font-weight="700" font-size="16">Generative: “What new thing can I create?”</text>
+    <rect x="530" y="45" width="400" height="200" rx="14" class="box"/>
+    <ellipse cx="670" cy="145" rx="100" ry="70" fill="var(--blueS)" stroke="var(--blue)" stroke-dasharray="4 4"/>
+    <g style="fill:var(--blue)"><circle cx="630" cy="120" r="7"/><circle cx="680" cy="160" r="7"/><circle cx="710" cy="120" r="7"/><circle cx="650" cy="175" r="7"/><circle cx="720" cy="170" r="7"/></g>
+    <circle cx="690" cy="135" r="9" fill="none" stroke="var(--green)" stroke-width="3"/>
+    <path class="arrow" d="M780 140 L840 140"/>
+    <rect x="845" y="110" width="70" height="60" rx="10" fill="var(--greenS)" stroke="var(--green)"/>
+    <text x="880" y="137" text-anchor="middle" font-size="12">new</text><text x="880" y="154" text-anchor="middle" font-size="12">sample</text>
+    <text x="670" y="232" text-anchor="middle" font-size="13" class="muted">learned data pattern</text>
+    <text x="730" y="275" text-anchor="middle" font-size="13" class="muted">Learns the data distribution · P(data) → samples new content</text>
+  </svg>
+  </div>
+  <table>
+    <tr><th></th><th>Discriminative AI</th><th>Generative AI</th></tr>
+    <tr><td><b>Goal</b></td><td>Identify or classify</td><td>Create new content</td></tr>
+    <tr><td><b>Output</b></td><td>A label, score, or class</td><td>Text, images, code, audio</td></tr>
+    <tr><td><b>Example</b></td><td>Spam / not-spam email filter</td><td>ChatGPT writes the email</td></tr>
+    <tr><td><b>Typical models</b></td><td>Logistic regression, BERT classifiers, CNN classifiers</td><td>GPT, Llama, Granite (LLMs), diffusion models</td></tr>
+  </table>
+  <div class="remember"><b>Remember:</b> Discriminative asks <i>“Which category does this belong to?”</i> Generative asks <i>“What new thing can I create?”</i></div>
+  <div class="pro"><b>In practice:</b> Real systems often combine both. A RAG chatbot can use a discriminative step, such as a classifier or reranker that scores which documents are relevant. A generative LLM then writes the final answer.</div>
+</section>
+
+<!-- 2 -->
+<section id="prompt">
+  <div class="secnum">SECTION 2</div>
+  <h2>Prompts & prompt engineering</h2>
+  <p class="max">A <b>prompt</b> is the input you give an LLM to guide it toward a task. <b>Prompt engineering</b> is the process of designing and refining those questions, commands, or statements until the responses are relevant and accurate.</p>
+
+  <h3>Anatomy of a prompt: 4 elements</h3>
+  <p class="muted" style="color:var(--muted);font-size:14.5px">Click a legend item to highlight that part of the prompt.</p>
+  <div class="legend" id="legend">
+    <span data-k="i"><i style="background:var(--blue)"></i>Instruction: what to do</span>
+    <span data-k="c"><i style="background:var(--purple)"></i>Context: background information</span>
+    <span data-k="d"><i style="background:var(--green)"></i>Input data: what to process</span>
+    <span data-k="o"><i style="background:var(--orange)"></i>Output indicator: where/how to answer</span>
+  </div>
+  <div class="prompt" id="anat" style="margin-top:12px">
+    <span class="hl hl-i" data-k="i">Classify this customer review as positive, negative, or neutral.</span><br>
+    <span class="hl hl-c" data-k="c">Product: Recently launched</span><br>
+    <span class="hl hl-d" data-k="d">Review: "The product arrived late but the quality was excellent."</span><br>
+    <span class="hl hl-o" data-k="o">Sentiment: ___</span>
+  </div>
+
+  <h3>Why prompt engineering matters</h3>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 120">
+    <rect x="20" y="30" width="230" height="60" rx="12" fill="var(--blueS)"/><text x="135" y="66" text-anchor="middle" font-weight="700" font-size="16">Better prompt</text>
+    <path class="arrow" d="M255 60 L345 60"/>
+    <rect x="350" y="30" width="250" height="60" rx="12" fill="var(--purpleS)"/><text x="475" y="66" text-anchor="middle" font-weight="700" font-size="16">Better guidance</text>
+    <path class="arrow" d="M605 60 L695 60"/>
+    <rect x="700" y="30" width="240" height="60" rx="12" fill="var(--greenS)"/><text x="820" y="66" text-anchor="middle" font-weight="700" font-size="16">Better response</text>
+  </svg>
+  </div>
+  <div class="grid3">
+    <div class="card"><h4>🎯 Accuracy</h4><p>More correct answers, with fewer hallucinations and misunderstandings.</p></div>
+    <div class="card"><h4>🧭 Relevance</h4><p>The answers fit what the user actually wants.</p></div>
+    <div class="card"><h4>♻️ No constant fine-tuning</h4><p>The same model adapts to new tasks by changing only the prompt. That is cheaper and faster.</p></div>
+  </div>
+  <h3>Bad vs good prompt</h3>
+  <div class="grid2">
+    <div class="card" style="border-color:var(--red)"><span class="tag t-red">Vague</span><pre style="margin:0">Summarize this.</pre></div>
+    <div class="card" style="border-color:var(--green)"><span class="tag t-green">Engineered</span><pre style="margin:0">You are a financial analyst.            ← role/context
+Summarize the report below in 3 bullet
+points for a non-technical manager.     ← instruction
+Report: """{report_text}"""             ← input data
+Summary (3 bullets):                    ← output indicator</pre></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="icl">
+  <div class="secnum">SECTION 3</div>
+  <h2>In-context learning & zero / one / few-shot</h2>
+  <p class="max"><b>In-context learning (ICL)</b> means teaching the model with examples (demonstrations) <i>inside the prompt</i>. The model spots the pattern and applies it to a new input. <b>No retraining or fine-tuning is needed</b>, and the model weights never change.</p>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 230">
+    <rect x="20" y="20" width="560" height="190" rx="14" class="box"/>
+    <text x="40" y="48" font-weight="700" font-size="14" class="muted">PROMPT (context window)</text>
+    <rect x="40" y="62" width="250" height="32" rx="8" fill="var(--greenS)"/><text x="55" y="83" font-size="14">Apple → Fruit</text>
+    <rect x="40" y="100" width="250" height="32" rx="8" fill="var(--greenS)"/><text x="55" y="121" font-size="14">Carrot → Vegetable</text>
+    <rect x="40" y="138" width="250" height="32" rx="8" fill="var(--greenS)"/><text x="55" y="159" font-size="14">Banana → Fruit</text>
+    <rect x="320" y="100" width="240" height="32" rx="8" fill="var(--orangeS)"/><text x="335" y="121" font-size="14">Potato → ?</text>
+    <text x="165" y="196" text-anchor="middle" font-size="12" class="muted">demonstrations</text>
+    <text x="440" y="155" text-anchor="middle" font-size="12" class="muted">new query</text>
+    <path class="arrow" d="M585 115 L660 115"/>
+    <rect x="665" y="70" width="120" height="90" rx="14" fill="var(--blueS)" stroke="var(--blue)"/><text x="725" y="112" text-anchor="middle" font-weight="700" font-size="16">LLM</text><text x="725" y="132" text-anchor="middle" font-size="11" class="muted">weights frozen 🔒</text>
+    <path class="arrow" d="M790 115 L840 115"/>
+    <rect x="845" y="95" width="100" height="40" rx="10" fill="var(--greenS)" stroke="var(--green)"/><text x="895" y="120" text-anchor="middle" font-weight="700" font-size="14">Vegetable</text>
+  </svg>
+  </div>
+
+  <h3>The “shots” spectrum</h3>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 120">
+    <line x1="60" y1="55" x2="900" y2="55" stroke="var(--border)" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="120" cy="55" r="18" fill="var(--blue)"/><text x="120" y="61" text-anchor="middle" font-weight="700" style="fill:#fff">0</text>
+    <circle cx="480" cy="55" r="18" fill="var(--purple)"/><text x="480" y="61" text-anchor="middle" font-weight="700" style="fill:#fff">1</text>
+    <circle cx="840" cy="55" r="18" fill="var(--green)"/><text x="840" y="61" text-anchor="middle" font-weight="700" style="fill:#fff">k</text>
+    <text x="120" y="100" text-anchor="middle" font-size="14">Zero-shot · no examples</text>
+    <text x="480" y="100" text-anchor="middle" font-size="14">One-shot · 1 example</text>
+    <text x="840" y="100" text-anchor="middle" font-size="14">Few-shot · several examples</text>
+    <text x="480" y="22" text-anchor="middle" font-size="12" class="muted">more examples → more control over format & behavior, but longer (costlier) prompts</text>
+  </svg>
+  </div>
+  <div class="tabs" data-group="shots">
+    <button class="on" data-t="z">Zero-shot</button><button data-t="o">One-shot</button><button data-t="f">Few-shot</button>
+  </div>
+  <div class="tabpanel on" data-group="shots" data-t="z"><pre>Classify this statement as true or false.
+Statement: The Eiffel Tower is in Berlin.
+Answer:</pre><p class="muted" style="color:var(--muted)"><b>When:</b> simple, well-known tasks the model already understands. Fastest and cheapest.</p></div>
+  <div class="tabpanel" data-group="shots" data-t="o"><pre>Translate English to French.
+English: How is the weather today?  →  French: Quel temps fait-il aujourd'hui ?
+English: Where is the supermarket?  →  French:</pre><p style="color:var(--muted)"><b>When:</b> you need to show the exact format or style once.</p></div>
+  <div class="tabpanel" data-group="shots" data-t="f"><pre>Review: "Loved it, works perfectly!"   → Positive
+Review: "Broke after two days."        → Negative
+Review: "It's okay, nothing special."  → Neutral
+Review: "Arrived late but great quality." →</pre><p style="color:var(--muted)"><b>When:</b> the task is subtle, domain-specific, or needs a consistent output format.</p></div>
+  <div class="remember"><b>Remember:</b> ICL = learn from examples in the prompt, without retraining. Zero = 0 examples, One = 1, Few = several.</div>
+  <div class="warn"><b>Common pitfall:</b> In few-shot prompts, the model also copies your examples’ biases. If all your examples are “Positive,” it will lean positive. Balance the labels and vary the examples.</div>
+</section>
+
+<!-- 4 -->
+<section id="reasoning">
+  <div class="secnum">SECTION 4</div>
+  <h2>Chain-of-Thought & Self-Consistency</h2>
+  <div class="grid2">
+  <div>
+    <h3 style="margin-top:0">Chain-of-Thought (CoT)</h3>
+    <p>The model solves a complex problem <b>step by step</b> instead of jumping straight to an answer. This works well for math, logic, and multi-step reasoning. You can trigger it with worked examples, or simply add <i>“Let’s think step by step.”</i></p>
+    <div class="svg-wrap" style="margin:10px 0">
+    <svg viewBox="0 0 420 300">
+      <rect x="110" y="10" width="200" height="44" rx="10" fill="var(--blueS)"/><text x="210" y="37" text-anchor="middle" font-size="14">Start: 22 apples</text>
+      <path class="arrow" d="M210 56 L210 88"/>
+      <rect x="110" y="92" width="200" height="44" rx="10" class="box"/><text x="210" y="119" text-anchor="middle" font-size="14">Sell 15 → 22−15 = 7</text>
+      <path class="arrow" d="M210 138 L210 170"/>
+      <rect x="110" y="174" width="200" height="44" rx="10" class="box"/><text x="210" y="201" text-anchor="middle" font-size="14">Receive 8 → 7+8 = 15</text>
+      <path class="arrow" d="M210 220 L210 252"/>
+      <rect x="110" y="256" width="200" height="40" rx="10" fill="var(--greenS)" stroke="var(--green)"/><text x="210" y="281" text-anchor="middle" font-weight="700" font-size="14">Answer: 15 ✓</text>
+    </svg></div>
+  </div>
+  <div>
+    <h3 style="margin-top:0">Self-Consistency</h3>
+    <p>Generate <b>several independent reasoning paths</b> for the same question (usually with temperature &gt; 0), then <b>compare</b> them and pick the most common answer (majority vote).</p>
+    <div class="svg-wrap" style="margin:10px 0">
+    <svg viewBox="0 0 420 300">
+      <rect x="140" y="10" width="140" height="40" rx="10" fill="var(--blueS)"/><text x="210" y="35" text-anchor="middle" font-size="14">Same question</text>
+      <path class="arrow" d="M180 52 L75 100"/><path class="arrow" d="M210 52 L210 100"/><path class="arrow" d="M240 52 L345 100"/>
+      <rect x="20" y="104" width="110" height="60" rx="10" class="box"/><text x="75" y="128" text-anchor="middle" font-size="12">Path 1</text><text x="75" y="150" text-anchor="middle" font-weight="700" font-size="15">15</text>
+      <rect x="155" y="104" width="110" height="60" rx="10" class="box"/><text x="210" y="128" text-anchor="middle" font-size="12">Path 2</text><text x="210" y="150" text-anchor="middle" font-weight="700" font-size="15" style="fill:var(--red)">14</text>
+      <rect x="290" y="104" width="110" height="60" rx="10" class="box"/><text x="345" y="128" text-anchor="middle" font-size="12">Path 3</text><text x="345" y="150" text-anchor="middle" font-weight="700" font-size="15">15</text>
+      <path class="arrow" d="M75 166 L190 218"/><path class="arrow" d="M210 166 L210 214"/><path class="arrow" d="M345 166 L230 218"/>
+      <rect x="120" y="220" width="180" height="40" rx="10" fill="var(--orangeS)"/><text x="210" y="245" text-anchor="middle" font-size="14">Majority vote 🗳️</text>
+      <text x="210" y="288" text-anchor="middle" font-weight="700" font-size="15" style="fill:var(--green)">Final: 15 (2 of 3) ✓</text>
+    </svg></div>
+  </div>
+  </div>
+  <table>
+    <tr><th>Technique</th><th>Core idea</th><th>Trade-off</th></tr>
+    <tr><td><b>CoT</b></td><td>One step-by-step reasoning path</td><td>Longer outputs; still one chance to be wrong</td></tr>
+    <tr><td><b>Self-consistency</b></td><td>Many CoT paths → vote</td><td>More reliable, but N× the cost and latency</td></tr>
+  </table>
+  <div class="remember"><b>Remember:</b> CoT = solve step by step. Self-consistency = multiple solutions → compare → reliable answer.</div>
+</section>
+
+<!-- 5 -->
+<section id="langchain">
+  <div class="secnum">SECTION 5</div>
+  <h2>LangChain & prompt templates</h2>
+  <p class="max"><b>LangChain</b> is a Python (and JS) framework for building LLM applications. The “chain” in the name means <b>connecting several operations</b>, for example: retrieve → extract → process → generate.</p>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 260">
+    <rect x="390" y="95" width="180" height="70" rx="16" fill="var(--blue)"/><text x="480" y="128" text-anchor="middle" font-weight="700" font-size="18" style="fill:#fff">LLM</text><text x="480" y="150" text-anchor="middle" font-size="12" style="fill:#fff">via LangChain</text>
+    <g font-size="14">
+    <rect class="box" x="60" y="20" width="160" height="44" rx="10"/><text x="140" y="47" text-anchor="middle">📝 Prompts</text>
+    <rect class="box" x="60" y="108" width="160" height="44" rx="10"/><text x="140" y="135" text-anchor="middle">📄 Data / documents</text>
+    <rect class="box" x="60" y="196" width="160" height="44" rx="10"/><text x="140" y="223" text-anchor="middle">🛠️ Tools / APIs</text>
+    <rect class="box" x="740" y="20" width="160" height="44" rx="10"/><text x="820" y="47" text-anchor="middle">🗄️ Vector databases</text>
+    <rect class="box" x="740" y="108" width="160" height="44" rx="10"/><text x="820" y="135" text-anchor="middle">🔁 Workflows</text>
+    <rect class="box" x="740" y="196" width="160" height="44" rx="10"/><text x="820" y="223" text-anchor="middle">🧩 Output parsers</text>
+    </g>
+    <path class="arrow" d="M222 42 L388 112"/><path class="arrow" d="M222 130 L386 130"/><path class="arrow" d="M222 218 L388 150"/>
+    <path class="arrow" d="M738 42 L572 112"/><path class="arrow" d="M738 130 L574 130"/><path class="arrow" d="M738 218 L572 150"/>
+  </svg>
+  <div class="cap">LangChain is the glue between an LLM and everything around it.</div>
+  </div>
+  <div class="grid4">
+    <div class="card"><span class="tag t-blue">Modularity</span><p>Reusable building blocks you can swap, for example changing the LLM provider without rewriting the app.</p></div>
+    <div class="card"><span class="tag t-green">Extensibility</span><p>Easily add features and connect external systems.</p></div>
+    <div class="card"><span class="tag t-orange">Decomposition</span><p>Break complex tasks into small, testable steps.</p></div>
+    <div class="card"><span class="tag t-purple">Vector DB integration</span><p>Semantic search finds relevant information. This is the basis of RAG.</p></div>
+  </div>
+  <p><b>Common uses:</b> document summarization · data extraction · Q&A systems · customer support · automated writing · report analysis · technical documentation.</p>
+
+  <h3>Prompt templates: try it</h3>
+  <p class="max">A prompt template is a <b>reusable prompt with <code>{placeholders}</code></b>. It is reusable, consistent, easy to change, and works with different inputs.</p>
+  <div class="play card">
+    <div>
+      <pre style="margin-top:0">"Tell me a {adjective} joke about {content}."</pre>
+      <label>adjective</label><input id="adj" value="funny">
+      <label>content</label><input id="cont" value="chickens">
+    </div>
+    <div><label>Formatted prompt → sent to the LLM</label><div class="outbox" id="tplout"></div></div>
+  </div>
+<pre><span class="c-k">from</span> langchain_core.prompts <span class="c-k">import</span> PromptTemplate
+
+prompt = PromptTemplate.<span class="c-f">from_template</span>(<span class="c-s">"Tell me a {adjective} joke about {content}."</span>)
+prompt.<span class="c-f">format</span>(adjective=<span class="c-s">"funny"</span>, content=<span class="c-s">"chickens"</span>)
+<span class="c-c"># → 'Tell me a funny joke about chickens.'</span></pre>
+</section>
+
+<!-- 6 -->
+<section id="lcel">
+  <div class="secnum">SECTION 6</div>
+  <h2>LCEL: LangChain Expression Language</h2>
+  <p class="max">LCEL connects components with the <b>pipe operator <code>|</code></b>, like an assembly line. Each step does one job and passes its output to the next step.</p>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 190">
+    <rect x="10" y="60" width="130" height="60" rx="12" fill="var(--soft2)"/><text x="75" y="86" text-anchor="middle" font-size="13">input dict</text><text x="75" y="106" text-anchor="middle" font-size="11" class="muted">{"topic": "cats"}</text>
+    <path class="arrow" d="M142 90 L195 90"/>
+    <rect x="200" y="50" width="180" height="80" rx="14" fill="var(--blueS)" stroke="var(--blue)"/><text x="290" y="84" text-anchor="middle" font-weight="700">prompt</text><text x="290" y="106" text-anchor="middle" font-size="12" class="muted">fills the template</text>
+    <text x="410" y="98" text-anchor="middle" font-size="28" font-weight="700" style="fill:var(--blue)">|</text>
+    <rect x="440" y="50" width="180" height="80" rx="14" fill="var(--purpleS)" stroke="var(--purple)"/><text x="530" y="84" text-anchor="middle" font-weight="700">llm</text><text x="530" y="106" text-anchor="middle" font-size="12" class="muted">generates response</text>
+    <text x="650" y="98" text-anchor="middle" font-size="28" font-weight="700" style="fill:var(--blue)">|</text>
+    <rect x="680" y="50" width="180" height="80" rx="14" fill="var(--greenS)" stroke="var(--green)"/><text x="770" y="84" text-anchor="middle" font-weight="700">output_parser</text><text x="770" y="106" text-anchor="middle" font-size="12" class="muted">→ clean string / JSON</text>
+    <path class="arrow" d="M862 90 L905 90"/><text x="930" y="95" text-anchor="middle" font-size="20">✅</text>
+    <text x="480" y="170" text-anchor="middle" font-size="14" class="muted">chain = prompt | llm | output_parser   (output of each step = input of the next)</text>
+  </svg>
+  </div>
+<pre><span class="c-k">from</span> langchain_core.prompts <span class="c-k">import</span> PromptTemplate
+<span class="c-k">from</span> langchain_core.output_parsers <span class="c-k">import</span> StrOutputParser
+<span class="c-c"># In the IBM labs: from langchain_ibm import WatsonxLLM  (any chat model works, e.g. ChatOpenAI)</span>
+
+prompt = PromptTemplate.<span class="c-f">from_template</span>(<span class="c-s">"Tell me a {adjective} joke about {content}."</span>)
+chain  = prompt | llm | <span class="c-f">StrOutputParser</span>()
+chain.<span class="c-f">invoke</span>({<span class="c-s">"adjective"</span>: <span class="c-s">"funny"</span>, <span class="c-s">"content"</span>: <span class="c-s">"cats"</span>})</pre>
+
+  <h3>Sequential vs parallel execution</h3>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 260">
+    <text x="220" y="24" text-anchor="middle" font-weight="700">RunnableSequence (or |): one after another</text>
+    <rect x="20" y="50" width="100" height="44" rx="10" fill="var(--soft2)"/><text x="70" y="77" text-anchor="middle" font-size="13">Text</text>
+    <path class="arrow" d="M122 72 L150 72"/>
+    <rect x="155" y="50" width="110" height="44" rx="10" fill="var(--blueS)"/><text x="210" y="77" text-anchor="middle" font-size="13">Summarize</text>
+    <path class="arrow" d="M267 72 L295 72"/>
+    <rect x="300" y="50" width="110" height="44" rx="10" fill="var(--blueS)"/><text x="355" y="77" text-anchor="middle" font-size="13">Translate</text>
+    <path class="arrow" d="M412 72 L425 72"/>
+    <text x="220" y="130" text-anchor="middle" font-size="13" class="muted">each step waits for the previous output</text>
+
+    <line x1="470" y1="20" x2="470" y2="240" stroke="var(--border)" stroke-dasharray="4 4"/>
+    <text x="720" y="24" text-anchor="middle" font-weight="700">RunnableParallel: all at once</text>
+    <rect x="500" y="118" width="100" height="44" rx="10" fill="var(--soft2)"/><text x="550" y="145" text-anchor="middle" font-size="13">Same text</text>
+    <path class="arrow" d="M602 132 L668 70"/><path class="arrow" d="M602 140 L668 140"/><path class="arrow" d="M602 148 L668 210"/>
+    <rect x="672" y="48" width="130" height="44" rx="10" fill="var(--greenS)"/><text x="737" y="75" text-anchor="middle" font-size="13">Summarize</text>
+    <rect x="672" y="118" width="130" height="44" rx="10" fill="var(--greenS)"/><text x="737" y="145" text-anchor="middle" font-size="13">Translate</text>
+    <rect x="672" y="188" width="130" height="44" rx="10" fill="var(--greenS)"/><text x="737" y="215" text-anchor="middle" font-size="13">Sentiment</text>
+    <path class="arrow" d="M804 70 L850 132"/><path class="arrow" d="M804 140 L850 140"/><path class="arrow" d="M804 210 L850 148"/>
+    <rect x="855" y="112" width="95" height="56" rx="10" class="box"/><text x="902" y="137" text-anchor="middle" font-size="12">{summary,</text><text x="902" y="154" text-anchor="middle" font-size="12">translation, …}</text>
+  </svg>
+  </div>
+<pre><span class="c-k">from</span> langchain_core.runnables <span class="c-k">import</span> RunnableParallel, RunnableLambda
+
+summarize = summary_prompt   | llm | StrOutputParser()
+translate = translate_prompt | llm | StrOutputParser()
+sentiment = sentiment_prompt | llm | StrOutputParser()
+
+<span class="c-c"># Parallel: same input → dict of results</span>
+analysis = <span class="c-f">RunnableParallel</span>(summary=summarize, translation=translate, sentiment=sentiment)
+analysis.<span class="c-f">invoke</span>({<span class="c-s">"text"</span>: article})
+
+<span class="c-c"># Type coercion: a plain dict inside a chain becomes a RunnableParallel automatically</span>
+chain2 = {<span class="c-s">"summary"</span>: summarize, <span class="c-s">"sentiment"</span>: sentiment} | report_prompt | llm
+
+<span class="c-c"># RunnableLambda: wrap any Python function as a step (plain functions are coerced too)</span>
+word_count = <span class="c-f">RunnableLambda</span>(<span class="c-k">lambda</span> s: len(s.split()))
+chain3 = summarize | word_count</pre>
+
+  <h3>The Runnable family</h3>
+  <div class="grid3">
+    <div class="card"><span class="tag t-blue">RunnableSequence</span><p>Runs steps in order. <code>a | b | c</code> is the short syntax.</p></div>
+    <div class="card"><span class="tag t-green">RunnableParallel</span><p>Runs independent tasks concurrently on the same input and returns a dict.</p></div>
+    <div class="card"><span class="tag t-orange">RunnableLambda</span><p>Turns a Python function into a chain step.</p></div>
+  </div>
+  <p style="margin-top:14px">Every Runnable shares the same interface: <code>.invoke()</code> (one input), <code>.batch()</code> (many inputs), <code>.stream()</code> (token by token), plus async versions such as <code>.ainvoke()</code>.</p>
+
+  <h3>LCEL or LangGraph?</h3>
+  <table>
+    <tr><th>Use LCEL when…</th><th>Use LangGraph when…</th></tr>
+    <tr><td>The flow is linear or a simple fan-out: summarize, Q&A, translate</td><td>You need branching, loops, retries, memory/state, or decisions made by the agent</td></tr>
+  </table>
+  <div class="remember"><b>Remember:</b> LCEL = prompt templates + connected components + the <code>|</code> operator.</div>
+</section>
+
+<!-- 7 -->
+<section id="agents">
+  <div class="secnum">SECTION 7</div>
+  <h2>Agents</h2>
+  <p class="max">An <b>agent</b> is an LLM-powered system that uses <b>prompts and tools</b> to perform complex tasks. A plain chain follows a fixed path. An agent <b>decides which tool to use next</b> based on what it has observed so far.</p>
+  <div class="svg-wrap">
+  <svg viewBox="0 0 960 280">
+    <rect x="20" y="110" width="140" height="56" rx="12" fill="var(--soft2)"/><text x="90" y="143" text-anchor="middle" font-size="14">User goal</text>
+    <path class="arrow" d="M162 138 L250 138"/>
+    <circle cx="350" cy="138" r="95" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="6 5"/>
+    <rect x="290" y="30" width="120" height="44" rx="10" fill="var(--blueS)"/><text x="350" y="57" text-anchor="middle" font-weight="700" font-size="14">🧠 Think</text>
+    <rect x="410" y="170" width="120" height="44" rx="10" fill="var(--orangeS)"/><text x="470" y="197" text-anchor="middle" font-weight="700" font-size="14">🛠️ Act (tool)</text>
+    <rect x="170" y="170" width="120" height="44" rx="10" fill="var(--greenS)"/><text x="230" y="197" text-anchor="middle" font-weight="700" font-size="14">👀 Observe</text>
+    <text x="350" y="143" text-anchor="middle" font-size="12" class="muted">loop until done</text>
+    <path class="arrow" d="M412 60 Q 470 90 472 166"/>
+    <path class="arrow" d="M408 200 L294 200"/>
+    <path class="arrow" d="M228 168 Q 235 85 286 56"/>
+    <path class="arrow" d="M447 138 L700 138"/>
+    <text x="575" y="128" text-anchor="middle" font-size="12" class="muted">goal reached</text>
+    <rect x="705" y="110" width="140" height="56" rx="12" fill="var(--blue)"/><text x="775" y="143" text-anchor="middle" font-weight="700" font-size="14" style="fill:#fff">Final answer</text>
+    <g font-size="12" class="muted"><text x="560" y="40">Tools: search · calculator</text><text x="560" y="58">SQL DB · APIs · retriever</text></g>
+  </svg>
+  <div class="cap">LLM + Tools + Prompts = an agent that can handle complex tasks (the ReAct-style loop).</div>
+  </div>
+  <div class="grid4">
+    <div class="card"><h4>❓ Q&A agents</h4><p>Answer questions using sources such as documents and the web.</p></div>
+    <div class="card"><h4>✍️ Content agents</h4><p>Create or summarize content.</p></div>
+    <div class="card"><h4>📊 Analytics agents</h4><p>Analyze data, for example by running SQL or pandas.</p></div>
+    <div class="card"><h4>🌍 Multilingual agents</h4><p>Translate and localize content.</p></div>
+  </div>
+  <div class="remember"><b>Remember:</b> Chain = a fixed recipe. Agent = a cook who chooses which tool to use next.</div>
+</section>
+
+<!-- 8 -->
+<section id="cheat">
+  <div class="secnum">SECTION 8</div>
+  <h2>One-page cheat sheet</h2>
+  <table>
+    <tr><th>Concept</th><th>One-liner</th><th>Memory hook</th></tr>
+    <tr><td>Discriminative AI</td><td>Classifies existing data</td><td>“Which category?”</td></tr>
+    <tr><td>Generative AI</td><td>Creates new content from learned patterns</td><td>“What can I create?”</td></tr>
+    <tr><td>Prompt</td><td>Input that guides an LLM toward a task</td><td>The steering wheel</td></tr>
+    <tr><td>Prompt engineering</td><td>Designing and refining prompts for accurate, relevant answers</td><td>How to talk to AI</td></tr>
+    <tr><td>4 prompt elements</td><td>Instruction · Context · Input data · Output indicator</td><td>I-C-I-O</td></tr>
+    <tr><td>In-context learning</td><td>Learning from demonstrations in the prompt, with no retraining</td><td>Show, don’t train</td></tr>
+    <tr><td>Zero / One / Few-shot</td><td>0 / 1 / several examples</td><td>Count the examples</td></tr>
+    <tr><td>Chain-of-Thought</td><td>Reason step by step</td><td>Show your work</td></tr>
+    <tr><td>Self-consistency</td><td>Many reasoning paths → majority vote</td><td>Ask 3 times, trust the majority</td></tr>
+    <tr><td>LangChain</td><td>Framework connecting LLMs to prompts, data, tools, DBs, workflows</td><td>The glue</td></tr>
+    <tr><td>Prompt template</td><td>Reusable prompt with <code>{variables}</code></td><td>Fill in the blanks</td></tr>
+    <tr><td>LCEL</td><td><code>prompt | llm | parser</code></td><td>Assembly line</td></tr>
+    <tr><td>RunnableSequence / Parallel / Lambda</td><td>In order / concurrently / wrap a Python function</td><td>Line · Fan-out · Adapter</td></tr>
+    <tr><td>Type coercion</td><td>Dicts → RunnableParallel, functions → RunnableLambda</td><td>Auto-convert</td></tr>
+    <tr><td>Agent</td><td>LLM + tools + prompts, deciding its own next step</td><td>The cook</td></tr>
+  </table>
+</section>
+
+<!-- 9 -->
+<section id="flash">
+  <div class="secnum">SECTION 9</div>
+  <h2>Flashcards</h2>
+  <p style="color:var(--muted)">Click a card to flip it. Try to answer out loud before you flip.</p>
+  <div class="grid3" id="cards"></div>
+</section>
+
+<!-- 10 -->
+<section id="quiz">
+  <div class="secnum">SECTION 10</div>
+  <h2>Self-check quiz</h2>
+  <p class="score">Score: <span id="score">0</span> / <span id="total">0</span></p>
+  <div id="quizbox"></div>
+</section>
+
+<!-- 11 -->
+<section id="interview">
+  <div class="secnum">SECTION 11</div>
+  <h2>Interview questions (with model answers)</h2>
+  <details><summary>What is the difference between prompt engineering and fine-tuning? When would you choose each?</summary>Prompt engineering changes the <i>input</i>. It is fast, cheap, needs no training data, and leaves the weights untouched. Fine-tuning changes the <i>model weights</i> using labeled data. Start with prompting (zero → few-shot → CoT), then add RAG if the model is missing knowledge. Fine-tune only when you need a consistent style or format at scale, lower latency or cost with a smaller model, or behavior that prompts can’t reliably produce.</details>
+  <details><summary>Why does few-shot prompting work if the model isn’t retrained?</summary>LLMs learned during pretraining to continue patterns. The demonstrations in the context window condition the model’s next-token predictions toward the format and mapping you showed. This is in-context learning, and the weights never change.</details>
+  <details><summary>What are the downsides of chain-of-thought and self-consistency in production?</summary>They produce more tokens, which means higher cost and latency. Self-consistency multiplies that by N samples. The reasoning can also be plausible but wrong, so you should validate outputs. Use them only for tasks that really need reasoning, and cap N.</details>
+  <details><summary>Explain <code>prompt | llm | parser</code>. What does each part return?</summary>The PromptTemplate takes a dict and returns a PromptValue. The LLM or chat model returns a string or an AIMessage. StrOutputParser returns a plain string (JsonOutputParser returns a dict). Each step is a Runnable with <code>invoke</code>, <code>batch</code>, and <code>stream</code>.</details>
+  <details><summary>When would you use RunnableParallel?</summary>Use it when several independent operations need the same input. For example, you might summarize, classify sentiment, and extract entities from one document at the same time. It cuts latency and returns a dict that you can feed into a later step.</details>
+  <details><summary>Chain vs agent: what’s the difference?</summary>A chain runs a fixed, predefined sequence of steps. An agent uses the LLM to decide which tool to call next, and in what order, based on intermediate observations. Agents are more flexible but less predictable, so they need guardrails, step limits, and logging.</details>
+  <details><summary>How would you make a prompt more reliable for a classification task?</summary>Give a clear instruction and a fixed label set. Add balanced few-shot examples and an explicit output format, such as JSON with an enum. Set temperature to 0. Validate the output with a parser, and evaluate on a labeled test set while you iterate.</details>
+</section>
+
+<!-- 12 -->
+<section id="practice">
+  <div class="secnum">SECTION 12</div>
+  <h2>Hands-on practice & résumé builder</h2>
+  <h3>Mini-projects (in order of difficulty)</h3>
+  <ul class="check">
+    <li><label><input type="checkbox"> <b>Prompt lab notebook:</b> Run one task (review sentiment) with zero-, one-, and few-shot prompts and with CoT. Record accuracy on 30 labeled examples in a table.</label></li>
+    <li><label><input type="checkbox"> <b>Self-consistency experiment:</b> Solve 10 math word problems with 1 sample vs 5 samples plus majority vote. Compare accuracy and cost.</label></li>
+    <li><label><input type="checkbox"> <b>LCEL text-analyzer API:</b> Use <code>RunnableParallel</code> to return summary, translation, and sentiment as JSON. Wrap it in FastAPI or Gradio.</label></li>
+    <li><label><input type="checkbox"> <b>Prompt-template library:</b> Build 5 reusable templates (email, summary, extraction, Q&A, code review), with tests checking the output format.</label></li>
+    <li><label><input type="checkbox"> <b>Tool-using agent:</b> Build an agent with a calculator and web search tools. Log every Think/Act/Observe step.</label></li>
+  </ul>
+  <h3>Résumé bullets you can earn from this unit</h3>
+  <div class="pro">
+  • Designed and evaluated zero-, few-shot, and chain-of-thought prompts for sentiment classification, improving accuracy from X% to Y% on a 30-sample benchmark without fine-tuning.<br>
+  • Built a modular LangChain (LCEL) pipeline using RunnableParallel to summarize, translate, and analyze sentiment concurrently, reducing response latency by Z%.<br>
+  • Developed a library of reusable LangChain prompt templates with structured output parsing for consistent, production-ready LLM responses.
+  </div>
+  <p style="color:var(--muted);font-size:14.5px">Replace X/Y/Z with your real measured numbers. Recruiters trust measured results. Keywords for ATS: <i>Prompt Engineering, LangChain, LCEL, LLM, Generative AI, Few-shot, Chain-of-Thought, IBM watsonx, Python</i>.</p>
+</section>
+
+<footer>Unit 01 · Foundations of Generative AI & Prompt Engineering · Personal study guide for the IBM RAG & Agentic AI Professional Certificate.</footer>
+</main>
+</div>
+
+<script>
+// prompt anatomy highlighting
+const anat=document.getElementById('anat');let cur=null;
+document.querySelectorAll('#legend span, #anat .hl').forEach(el=>el.addEventListener('click',()=>{
+  const k=el.dataset.k; if(cur===k){anat.classList.remove('dim');cur=null;anat.querySelectorAll('.hl').forEach(h=>h.classList.remove('on'));return;}
+  cur=k;anat.classList.add('dim');anat.querySelectorAll('.hl').forEach(h=>h.classList.toggle('on',h.dataset.k===k));}));
+// tabs
+document.querySelectorAll('.tabs').forEach(t=>t.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;const g=t.dataset.group;
+  t.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.tabpanel[data-group="'+g+'"]').forEach(p=>p.classList.toggle('on',p.dataset.t===b.dataset.t));}));
+// template playground
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function tpl(){document.getElementById('tplout').innerHTML='Tell me a <b style="color:var(--blue)">'+esc(adj.value||'{adjective}')+'</b> joke about <b style="color:var(--blue)">'+esc(cont.value||'{content}')+'</b>.';}
+adj.oninput=cont.oninput=tpl;tpl();
+// flashcards
+const fc=[["Discriminative vs Generative?","Discriminative classifies (spam or not). Generative creates new content (writes the email)."],
+["4 elements of a prompt","Instruction · Context · Input data · Output indicator"],
+["In-context learning","Teach with examples inside the prompt. No retraining; weights stay frozen."],
+["Zero vs One vs Few-shot","0 examples · 1 example · several examples"],
+["Chain-of-Thought","Solve step by step instead of jumping to the answer."],
+["Self-consistency","Sample several reasoning paths → majority vote → most reliable answer."],
+["Prompt template","Reusable prompt with {placeholders}, e.g. 'Tell me a {adjective} joke about {content}'."],
+["LCEL pipe |","Output of the left step becomes input of the right: prompt | llm | parser"],
+["RunnableParallel","Runs several runnables concurrently on the same input and returns a dict."],
+["RunnableLambda","Wraps a Python function so it can be a step in a chain."],
+["Type coercion","LCEL auto-converts dicts → RunnableParallel and functions → RunnableLambda."],
+["LCEL vs LangGraph","LCEL: simple linear flows. LangGraph: branching, loops, state, agent decisions."],
+["Agent","LLM + tools + prompts; decides its next action in a think → act → observe loop."]];
+cards.innerHTML=fc.map(([q,a])=>`<div class="flash"><div class="in"><div class="f">${q}</div><div class="b">${a}</div></div></div>`).join('');
+cards.querySelectorAll('.flash').forEach(c=>c.onclick=()=>c.classList.toggle('flip'));
+// quiz
+const Q=[["A model that labels X-ray images as 'fracture' or 'no fracture' is…",["Generative AI","Discriminative AI","An agent"],1,"It assigns a category to existing data, so it is discriminative."],
+["In 'Sentiment: ___', the 'Sentiment:' part is the…",["Instruction","Context","Output indicator"],2,"It tells the model where and how to put the answer."],
+["What changes in the model during in-context learning?",["Its weights are updated","Nothing; only the prompt contains examples","It is fine-tuned on the examples"],1,"ICL needs no training. The examples live only in the context window."],
+["A prompt with exactly one worked example before the new input is…",["Zero-shot","One-shot","Few-shot"],1,"One demonstration means one-shot."],
+["Asking the model to 'think step by step' is an example of…",["Self-consistency","Chain-of-Thought","Prompt template"],1,"CoT asks for intermediate reasoning steps."],
+["Self-consistency picks the final answer by…",["Taking the longest answer","Majority vote over multiple reasoning paths","Asking the user"],1,"It samples several paths and keeps the most consistent answer."],
+["In chain = prompt | llm | parser, what does the parser receive?",["The template variables","The LLM's output","The original user input"],1,"With the pipe operator, each step receives the previous step's output."],
+["You want summary, translation, and sentiment of the SAME text at once. Use…",["RunnableSequence","RunnableParallel","RunnableLambda"],1,"Parallel runs independent tasks on the same input concurrently."],
+["A Python dict used inside an LCEL chain is automatically converted to…",["RunnableParallel","RunnableLambda","PromptTemplate"],0,"Type coercion: dict → RunnableParallel, function → RunnableLambda."],
+["Your workflow needs loops and branching decisions. Best choice?",["LCEL only","LangGraph","Zero-shot prompt"],1,"LangGraph is designed for stateful, branching, looping workflows."],
+["What makes an agent different from a fixed chain?",["It uses a bigger model","It decides which tools to use next","It never uses prompts"],1,"An agent picks its actions dynamically from observations."]];
+total.textContent=Q.length;let sc=0;
+quizbox.innerHTML=Q.map((q,i)=>`<div class="q" data-i="${i}"><p>${i+1}. ${q[0]}</p>${q[1].map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')}<div class="exp">💡 ${q[3]}</div></div>`).join('');
+quizbox.querySelectorAll('.q').forEach(d=>d.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||d.classList.contains('done'))return;
+ const q=Q[d.dataset.i];d.classList.add('done');d.querySelectorAll('button')[q[2]].classList.add('right');
+ if(+b.dataset.j===q[2])sc++;else b.classList.add('wrong');score.textContent=sc;}));
+// progress + active toc
+const links=[...document.querySelectorAll('nav.toc a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+ let i=0;secs.forEach((s,k)=>{if(s.getBoundingClientRect().top<140)i=k});links.forEach((a,k)=>a.classList.toggle('active',k===i));});
+</script>
+</body>
+</html>
